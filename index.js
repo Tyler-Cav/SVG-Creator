@@ -1,68 +1,45 @@
 const fs = require('fs')
 const inquirer = require('inquirer');
-//const generateMarkdown = require('./');
-
-
+const Color = require('color');
+//const generateSVG = require('./');
 
 //prompts build to be used as values for the readme file
 inquirer
     .prompt([
         {
             type: 'input',
-            message: 'What is the title of your project?',
-            name: 'title'
+            message: 'Please enter up to 3 characters for your logo',
+            name: 'textCharacters',
+            validate: function(type) {
+                if (type.length < 4) {
+                    return true
+                } else {
+                    return 'Error, please select a maximum or 3 characters'
+                }
+            }
         },
         {
             type: 'input',
-            message: 'What is your GitHub Username?',
-            name: 'username'
-        },
-        {
-            type: 'input',
-            message: 'What is your GitHub User HTTPS Link?',
-            name: 'githublink'
-        },
-        {
-            type: 'input',
-            message: 'What is your description?',
-            name: 'description'
+            message: 'Please enter a text color or hexidecimal number',
+            name: 'textColor',
+            //validate: 
         },
         {
             type: 'list',
-            message: 'Please choose your license option',
-            choices: ['MIT', 'Apache2.0', 'GPL3', 'BSD3', 'None'],
-            name: 'license',
+            message: 'Please choose your background shape,
+            choices: ['Circle', 'Triangle', 'Square'],
+            name: 'shape',
         },
         {
             type: 'input',
-            message: 'Please add your installation details',
-            name: 'installation'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your usage details',
-            name: 'usage'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your contribution details',
-            name: 'contributing',
-        },
-        {
-            type: 'input',
-            message: 'Please describe any tests that were performed',
-            name: 'testing',
-        },
-        {
-            type: 'input',
-            message: 'Please enter your email for users to reach out for questions.',
-            name: 'email',
+            message: 'Please enter a shape color or hexidecimal number',
+            name: 'shapeColor'
         }
-    
     ])
     //.then response function used to initialize the write file for the read me
     //the generateMarkdown keyword is calling to the generateMarkdown.js function which provides details of the prompt responses.
         .then(response => {
-        fs.writeFile('Dist/ReadMe.md', generateMarkdown(response), (err) => 
-        err ? console.error(err) : console.log('Success!'))
+            console.log(response)
+        //fs.writeFile('Dist/logo.svg', generateMarkdown(response), (err) => 
+        //err ? console.error(err) : console.log('Success!'))
     })
