@@ -26,7 +26,7 @@ inquirer
         },
         {
             type: 'list',
-            message: 'Please choose your background shape,
+            message: 'Please choose your background shape' ,
             choices: ['Circle', 'Triangle', 'Square'],
             name: 'shape',
         },
