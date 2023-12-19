@@ -34,7 +34,8 @@ inquirer
             name: 'shapeColor'
         }
     ])
-
+        //.then response function used to create comparisons for which shape chosen then 
+        // after will execute svg creation
         .then(response => {
             let shape;
             if (response.shape === "Circle") {
@@ -44,8 +45,6 @@ inquirer
             } else {
                 shape = new Square(response.text, response.shapeColor, response.textColor)
             }
-            console.log(response)
-                //.then response function used to initialize the svg file.
         fs.writeFile('SVG-Dist/logo.svg', shape.render(), (err) => 
-        err ? console.error(err) : console.log('Success!'))
+        err ? console.error(err) : console.log('Generated Logo.svg'))
     })
