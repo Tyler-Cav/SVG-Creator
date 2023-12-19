@@ -1,36 +1,6 @@
 const fs = require('fs')
 const inquirer = require('inquirer');
-//How to remove color package?
-const Color = require('color');
-
-//TODO: ASK ABOUT xmlns, I still don't fully understand the purpose. 
-
-//need to fix function createCircle (response) {
-    const circle = `<svg width="300px" height="200px" xmlns="http://www.w3.org/2000/svg">
-    <circle width="300px" height="200px" fill="${response.shapeColor}" stroke="black" stroke-width="6"/>
-    <text x="50%" y="50%">${response.textCharacters}</text>
-    </svg>`;
-}
-
-function createTriangle (response) {}
-
-function createSquare (response) {
-    const Square = `<svg width="300px" height="200px" xmlns="http://www.w3.org/2000/svg">
-    <rect width="300px" height="200px" fill="${response.shapeColor}" stroke="black" stroke-width="6"/>
-    <text x="50%" y="50%">${response.textCharacters}</text>
-    </svg>`;
-    return Square
-}
-
-function svgTemplate (response) {
-    if (response.shape === "Circle") {
-        return createCircle(response)
-    } else if (response.shape === "Triangle") {
-        return createTriangle(response) 
-    } else {
-        return createSquare(response)
-    }
-}
+const {Square, Triangle, Circle} = require('./lib/shapes')
 
 //prompts build to be used as values for the readme file
 inquirer
@@ -38,7 +8,7 @@ inquirer
         {
             type: 'input',
             message: 'Please enter up to 3 characters for your logo',
-            name: 'textCharacters',
+            name: 'text',
             validate: function(type) {
                 if (type.length < 4) {
                     return true
@@ -50,14 +20,13 @@ inquirer
         {
             type: 'input',
             message: 'Please enter a text color or hexidecimal number',
-            name: 'textColor',
-            //validate: 
+            name: 'textColor'
         },
         {
             type: 'list',
             message: 'Please choose your background shape' ,
             choices: ['Circle', 'Triangle', 'Square'],
-            name: 'shape',
+            name: 'shape'
         },
         {
             type: 'input',
@@ -65,10 +34,18 @@ inquirer
             name: 'shapeColor'
         }
     ])
-    //.then response function used to initialize the write file for the read me
-    //the generateMarkdown keyword is calling to the generateMarkdown.js function which provides details of the prompt responses.
+
         .then(response => {
+            let shape;
+            if (response.shape === "Circle") {
+                shape = new Circle(response.text, response.shapeColor, response.textColor)
+            } else if (response.shape === "Triangle") {
+                shape = new Triangle(response.text, response.shapeColor, response.textColor)
+            } else {
+                shape = new Square(response.text, response.shapeColor, response.textColor)
+            }
             console.log(response)
-        fs.writeFile('SVG-Dist/logo.svg', svgTemplate(response), (err) => 
+                //.then response function used to initialize the svg file.
+        fs.writeFile('SVG-Dist/logo.svg', shape.render(), (err) => 
         err ? console.error(err) : console.log('Success!'))
     })
