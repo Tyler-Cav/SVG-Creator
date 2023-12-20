@@ -1,4 +1,0 @@
-<svg width="300px" height="200px" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="yellow"/>
-    <text text-anchor="middle" font-size="60" x="50" y="60" fill="black" >cir</text>
-    </svg>
