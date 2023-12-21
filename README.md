@@ -12,11 +12,7 @@
   ## Installation
   Please clone this repository. Then install node if it has not been installed already. Then use `npm i` in the CLI to download the necessary packages. 1. Inquirer Package. 2. Jest Package
 
-### Link to video demonstration: 
-
-
-
-
+### Link to video demonstration: [Google Photos Video](https://photos.app.goo.gl/ss8foH7aWKXVccHv6)
 
   ## Usage
   After cloning the repo and installing the necessary packages. When you are at the root file path location of this repository, please enter `node index.js` within the CLI to be prompted with questions on the SVG you would like to create.
