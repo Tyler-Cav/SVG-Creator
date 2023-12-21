@@ -1,7 +1,6 @@
 const fs = require('fs')
 const inquirer = require('inquirer');
-const Color = require('color');
-//const generateSVG = require('./');
+const {Square, Triangle, Circle} = require('./lib/shapes')
 
 //prompts build to be used as values for the readme file
 inquirer
@@ -9,7 +8,7 @@ inquirer
         {
             type: 'input',
             message: 'Please enter up to 3 characters for your logo',
-            name: 'textCharacters',
+            name: 'text',
             validate: function(type) {
                 if (type.length < 4) {
                     return true
@@ -21,14 +20,13 @@ inquirer
         {
             type: 'input',
             message: 'Please enter a text color or hexidecimal number',
-            name: 'textColor',
-            //validate: 
+            name: 'textColor'
         },
         {
             type: 'list',
-            message: 'Please choose your background shape,
+            message: 'Please choose your background shape' ,
             choices: ['Circle', 'Triangle', 'Square'],
-            name: 'shape',
+            name: 'shape'
         },
         {
             type: 'input',
@@ -36,10 +34,17 @@ inquirer
             name: 'shapeColor'
         }
     ])
-    //.then response function used to initialize the write file for the read me
-    //the generateMarkdown keyword is calling to the generateMarkdown.js function which provides details of the prompt responses.
+        //.then response function used to create comparisons for which shape chosen then 
+        // after will execute svg creation
         .then(response => {
-            console.log(response)
-        //fs.writeFile('Dist/logo.svg', generateMarkdown(response), (err) => 
-        //err ? console.error(err) : console.log('Success!'))
+            let shape;
+            if (response.shape === "Circle") {
+                shape = new Circle(response.text, response.shapeColor, response.textColor)
+            } else if (response.shape === "Triangle") {
+                shape = new Triangle(response.text, response.shapeColor, response.textColor)
+            } else {
+                shape = new Square(response.text, response.shapeColor, response.textColor)
+            }
+        fs.writeFile('SVG-Dist/logo.svg', shape.render(), (err) => 
+        err ? console.error(err) : console.log('Generated Logo.svg'))
     })
